@@ -1,0 +1,20 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaNodePool
+metadata:
+  name: brokers
+  labels:
+    strimzi.io/cluster: {{ .Chart.Name }}-kafka-cluster
+spec:
+  replicas: {{ .Values.kafka.kafkaBroker.replicaCount }}
+  roles:
+    - broker
+  storage:
+    type: {{ .Values.kafka.kafkaBroker.storage.type }}
+    volumes:
+      {{- range $volume := .Values.kafka.kafkaBroker.storage.volumes }}
+      - id: {{ $volume.id }}
+        type: {{ $volume.type }}
+        size: {{ $volume.size }}
+        class: {{ $volume.class }}
+        deleteClaim: {{ $volume.deleteClaim }}
+      {{- end }}

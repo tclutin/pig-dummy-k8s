@@ -1,0 +1,21 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaNodePool
+metadata:
+  name: controllers
+  labels:
+    strimzi.io/cluster: {{ .Chart.Name }}-kafka-cluster
+spec:
+  replicas: {{ .Values.kafka.kafkaController.replicaCount }}
+  roles:
+    - controller
+  storage:
+    type: {{ .Values.kafka.kafkaController.storage.type }}
+    volumes:
+      {{- range $volume := .Values.kafka.kafkaController.storage.volumes }}
+      - id: {{ $volume.id }}
+        type: {{ $volume.type }}
+        size: {{ $volume.size }}
+        class: {{ $volume.class }}
+        deleteClaim: {{ $volume.deleteClaim }}
+        kraftMetadata: {{ $volume.kraftMetadata }}
+      {{- end }}

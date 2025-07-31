@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <!-- Declared Vars To Go Here -->
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Metadata -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Page Name and Site Name -->
+    <title>PIG - My Dummy Service is working!!!</title>
+
+    <!-- CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+    <script>
+        $.getJSON('/internal/healthz', function(data) {
+
+            if (data.message=="healthy") {
+                var color="green"
+            } else {
+                var color="red"
+            }
+            
+            var text = `<button style="background-color:${color}; border-color:blue; color:white">Service health: ${data.message}</button><br>`
+                        
+            
+            $("#healthcheck").html(text);
+        });
+
+        $.getJSON('/database', function(data) {
+          
+          var text = `<button style="background-color:blue; border-color:blue; color:white">Database response: ${data.message}</button><br>`
+                      
+          
+          $("#dbcheck").html(text);
+      });
+
+
+        </script>
+    
+    <script>
+        function checkhealth() {
+            $.getJSON('/internal/healthz', function(data) {
+
+                if (data.message=="healthy") {
+                    var color="green"
+                } else {
+                    var color="red"
+                }
+                
+                var text = `<button style="background-color:${color}; border-color:blue; color:white">Service health: ${data.message}</button><br>`
+                            
+                
+                $("#healthcheck").html(text);
+            });
+        }
+        </script>
+
+<script>
+  function checkdb() {
+      $.getJSON('/database', function(data) {
+          
+          var text = `<button style="background-color:blue; border-color:blue; color:white">Database response: ${data.message}</button><br>`
+                      
+          
+          $("#dbcheck").html(text);
+      });
+  }
+  </script>
+
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <header class="header clearfix" style="background-color: #ffffff">
+
+        <!-- Main Menu -->
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </nav>
+
+        <!-- Site Name -->
+        <h1 class="h3 text-muted">PIG - A Dummy Service</h1>
+
+        <!-- Breadcrumbs -->
+        <ol class="breadcrumb">
+          <li><a href="/">Home</a></li>
+          <!-- <li><a href="#">Level 1</a></li>
+          <li class="active">Level 2</li> -->
+        </ol>
+
+      </header>
+
+      <div class="page-heading">
+
+        <!-- Page Heading -->
+        <h1>Home</h1>
+
+      </div>
+
+      <div class="row">
+
+        <div class="col-sm-3">
+
+          <!-- Sub Navigation -->
+          <ul class="nav nav-pills nav-stacked">
+            <li class="active"><a href="/">Home</a>
+            <li><a onclick="checkhealth()" href="#">Healthcheck</a></li> <br>
+            <li><a onclick="checkdb()" href="#">DB check</a></li>
+          </ul>
+
+        </div>
+
+        <div class="col-sm-6">
+
+          <div class="page-contents">
+
+            <!-- Design Body -->
+            <p id="healthcheck"></p>
+            <p id="dbcheck"></p>
+            <h2>Lorem ipsum</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur a est vel est iaculis tincidunt eget sit amet felis. Donec tellus arcu, vulputate nec volutpat sagittis, placerat hendrerit odio. Mauris fringilla eros semper eros iaculis faucibus. Ut rutrum nisl non massa lacinia commodo ultricies sit amet mauris. Nullam erat nibh, lacinia venenatis diam non, imperdiet pellentesque felis. Fusce tempus ligula eget sem commodo viverra vel non est. Maecenas hendrerit imperdiet diam vitae pharetra.</p>
+            <h4>Vivamus id cursus</h4>
+            <p>Vivamus id cursus tellus. Quisque ullamcorper nibh maximus, lacinia justo ut, sollicitudin massa. Donec pellentesque at turpis vel volutpat. Vivamus quis quam id lectus mattis pulvinar pulvinar ac augue. Integer est elit, suscipit sed vehicula ut, dapibus a nisl. Phasellus a nunc non nunc consectetur condimentum a vitae orci. Morbi at arcu gravida, iaculis tortor ut, ornare augue. Curabitur sed magna ut ligula congue porttitor.</p>
+            <h4>Aliquam ut tincidunt</h4>
+            <p>Aliquam ut tincidunt quam, a gravida diam. Aenean euismod eros in consequat luctus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam vel rutrum massa. Vestibulum aliquet lectus nec elit ultricies pellentesque. Quisque at fermentum mi. Maecenas tempus tincidunt imperdiet. Nullam tempor commodo risus nec commodo. </p>
+
+          </div>
+
+        </div>
+
+        <div class="col-sm-3">
+
+          <!-- Login Section -->
+          <!--<h2>Login</h2>-->
+
+          <!-- Search Section -->
+          <!--<h2>Search</h2>-->
+
+          <!-- Nested Right Column Content -->
+
+        </div>
+
+      </div>
+
+      <footer class="footer">
+        <p class="pull-right">
+          <!-- Last Updated Design Area-->
+          Last Updated: Monday, May 17, 2021
+        </p>
+        <p>&copy; 2021 PIG, Inc.</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+  </body>
+</html>

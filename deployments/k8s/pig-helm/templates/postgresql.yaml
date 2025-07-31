@@ -1,0 +1,28 @@
+apiVersion: "acid.zalan.do/v1"
+kind: postgresql
+metadata:
+  name: {{ .Chart.Name }}-postgresql-cluster
+  labels:
+    app: {{ .Chart.Name }}
+spec:
+  teamId: "{{ .Values.postgresql.teamId }}"
+  volume:
+    size: {{ .Values.postgresql.volume.size }}
+  numberOfInstances: {{ .Values.postgresql.numberOfInstances }}
+  users:
+    zalando:
+      - superuser
+      - createdb
+  databases:
+    foo: zalando
+  preparedDatabases:
+    bar: {}
+  postgresql:
+    version: "{{ .Values.postgresql.version }}"
+  resources:
+    requests:
+      cpu: {{ .Values.postgresql.resources.requests.cpu }}
+      memory: {{ .Values.postgresql.resources.requests.memory }}
+    limits:
+      cpu: {{ .Values.postgresql.resources.limits.cpu }}
+      memory: {{ .Values.postgresql.resources.limits.memory}}

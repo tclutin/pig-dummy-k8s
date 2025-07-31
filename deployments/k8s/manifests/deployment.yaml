@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pig-deployment
+  labels:
+    app: pig
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pig
+  template:
+    metadata:
+      labels:
+        app: pig
+    spec:
+      containers:
+        - name: pig
+          image: tclutin/pig:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: pig-config
+                  key: port

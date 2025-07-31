@@ -1,0 +1,13 @@
+[Unit]
+Description=Pig
+After=network.target
+
+[Service]
+Type=simple
+Environment="PORT=8889"
+ExecStart=/home/student20/pig
+WorkingDirectory=/home/student20
+Restart=always
+
+[Install]
+WantedBy=default.target

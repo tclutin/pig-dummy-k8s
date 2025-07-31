@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}-deployment
+  labels:
+    app: {{ .Chart.Name }}
+spec:
+  replicas: {{ .Values.pig.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: {{ .Values.pig.image.repository }}:{{ .Values.pig.image.tag }}
+          ports:
+            - containerPort: {{ .Values.pig.config.port }}
+          env: #надо посмотреть, как меньше сделать
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Chart.Name }}-config
+                  key: port
+            - name: RABBITMQ_BROKER
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Chart.Name }}-config
+                  key: rabbitmqBroker
+            - name: DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Chart.Name }}-config
+                  key: database
+      resources:
+        requests:
+          cpu: {{ .Values.pig.resources.requests.cpu}}
+          memory: {{ .Values.pig.resources.requests.memory}}
+        limits:
+          cpu: {{ .Values.pig.resources.limits.cpu}}
+          memory: {{ .Values.pig.resources.limits.memory}}

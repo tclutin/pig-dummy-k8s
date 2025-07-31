@@ -1,0 +1,42 @@
+---
+- name: Try to ping
+  ansible.builtin.ping:
+
+- name: Copy binary file on remote server
+  ansible.builtin.copy:
+    src: pig
+    dest: /home/student20/pig
+    owner: student20
+    group: domain users
+    mode: '0755'
+
+- name: Copy resources on remote server
+  ansible.builtin.copy:
+    src: resources
+    dest: /home/student20/
+    owner: student20
+    group: domain users
+    mode: '0755'
+
+- name: Create systemd directory in user space on remote server
+  ansible.builtin.file:
+    path: /home/student20/.config/systemd/user
+    state: directory
+    owner: student20
+    group: domain users
+    mode: '0755'
+
+- name: Copy systemd-unit on remote server
+  ansible.builtin.copy:
+    src: pig.service
+    dest: /home/student20/.config/systemd/user/pig.service
+    owner: student20
+    group: domain users
+    mode: '0755'
+
+- name: Enable and start our unit on remote server
+  ansible.builtin.systemd_service:
+    name: pig
+    state: restarted
+    enabled: yes
+    scope: user

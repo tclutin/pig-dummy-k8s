@@ -1,0 +1,98 @@
+pig:
+  replicaCount: 2
+  config:
+    port: 8012
+  image:
+    repository: tclutin/pig
+    tag: latest
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+postgresql:
+  version: 15
+  numberOfInstances: 3
+  teamId: acid
+  auth:
+    username: ""
+    password: ""
+    database: ""
+  volume:
+    size: 1Gi
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 2000m
+      memory: 4Gi
+
+kafka:
+  listeners:
+    plain:
+      port: 9092
+      tls: false
+    tls:
+      port: 9093
+      tls: true
+  replication:
+    offsetsTopic: 3
+    transactionState: 3
+    default: 3
+    minInSyncReplicas: 2
+  kafkaBroker:
+    replicaCount: 3
+    storage:
+      type: jbod
+      volumes:
+        - id: 0
+          type: persistent-claim
+          size: 5Gi
+          class: local-path
+          deleteClaim: true
+  kafkaController:
+    replicaCount: 3
+    storage:
+      type: jbod
+      volumes:
+        - id: 0
+          type: persistent-claim
+          size: 5Gi
+          class: local-path
+          deleteClaim: true
+          kraftMetadata: shared
+
+rabbitmqCluster:
+  replicaCount: 3
+  serviceType: ClusterIP
+  persistence:
+    storageClassName: local-path
+    storage: 5Gi
+  resources:
+    requests:
+      cpu: 1000m
+      memory: 6Gi
+    limits:
+      cpu: 1000m
+      memory: 6Gi
+
+service:
+  type: NodePort
+  nodePort: 30007
+  port: 80
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+  paths:
+    - path: /pig/(.*)
+      pathType: ImplementationSpecific
+
+#стоило бы ресурсы ещё задать для кафки
+#и сделать возможно выключать сервисы
