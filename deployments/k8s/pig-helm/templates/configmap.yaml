@@ -7,3 +7,6 @@ data:
   rabbitmqBroker: "{{ .Chart.Name }}-rabbitmq-cluster:5672"
   kafkaBroker: "{{ .Chart.Name }}-kafka-cluster-kafka-bootstrap:9092"
   database: "postgresql://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@pig-helm-postgresql-cluster:5432/{{ .Values.postgresql.auth.database }}"
+
+  #Так не делать, лучше database в secret засунуть.
+  #Лучше юезать release.name вместо Chart.name
